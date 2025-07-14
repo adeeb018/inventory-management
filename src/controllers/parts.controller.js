@@ -1,4 +1,4 @@
-const Part = require('../models/part');
+const { Part } = require('../models');
 
 exports.getAllParts = async (req, res) => {
   const parts = await Part.findAll();

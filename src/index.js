@@ -2,6 +2,9 @@ const express = require('express');
 const sequelize = require('./config/database');
 const projectRoutes = require('./routes/project.routes');
 const partsRoutes = require('./routes/parts.routes');
+const manufacturerPartRoutes = require('./routes/manufacturerPart.routes');
+const partReceiptRoutes = require('./routes/partReceipt.routes');
+const receiptLocationRoutes = require('./routes/receiptLocation.routes');
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +17,10 @@ app.get('/', (req, res) => {
 
 app.use('/projects', projectRoutes);
 app.use('/parts', partsRoutes);
+app.use('/manufacturer-parts', manufacturerPartRoutes);
+app.use('/receipts', partReceiptRoutes);
+app.use('/receipt-locations', receiptLocationRoutes);
+
 
 sequelize.authenticate()
   .then(() => {

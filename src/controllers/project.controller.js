@@ -1,7 +1,7 @@
 // ===============================
 // 1. src/controllers/project.controller.js
 // ===============================
-const Project = require('../models/project');
+const { Project } = require('../models');
 
 exports.getAllProjects = async (req, res) => {
   try {
