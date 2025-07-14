@@ -76,3 +76,41 @@ exports.deleteManufacturerPart = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+// Get usage of a manufacturer part across projects
+// Get usage of a manufacturer part across all projects
+exports.getPartUsageByManufacturerPartId = async (req, res) => {
+    const { ManufacturerPart, ProjectPartUsage, Project } = require('../models');
+    const partId = req.params.id;
+  
+    try {
+      // Check if the manufacturer part exists
+      const partExists = await ManufacturerPart.findByPk(partId);
+      if (!partExists) {
+        return res.status(404).json({ error: 'Manufacturer part not found' });
+      }
+  
+      // Get usage details
+      const usageData = await ProjectPartUsage.findAll({
+        where: { manufacturer_part_id: partId },
+        include: [{
+          model: Project,
+          attributes: ['project_id', 'name']
+        }],
+        attributes: ['quantity_used']
+      });
+  
+      const result = usageData.map(record => ({
+        project_id: record.Project.project_id,
+        project_name: record.Project.name,
+        quantity_used: record.quantity_used
+      }));
+  
+      res.json(result);
+    } catch (error) {
+      console.error('Error fetching usage data:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+  

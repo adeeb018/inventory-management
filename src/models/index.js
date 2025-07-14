@@ -9,6 +9,8 @@ const Part = require('./part.model')(sequelize, DataTypes);
 const Manufacturer = require('./manufacturer.model')(sequelize, DataTypes);
 const Location = require('./location.model')(sequelize, DataTypes);
 const Project = require('./project.model')(sequelize, DataTypes);
+const ProjectPartUsage = require('./projectPartUsage.model')(sequelize, DataTypes)
+const StockAdjustment = require('./stockAdjustment.model')(sequelize, DataTypes);
 
 // Define associations
 PartReceipt.belongsTo(ManufacturerPart, { foreignKey: 'manufacturer_part_id' });
@@ -20,6 +22,8 @@ ManufacturerPart.belongsTo(Part, { foreignKey: 'part_id' });
 ReceiptLocation.belongsTo(Location, { foreignKey: 'location_id' });
 ReceiptLocation.belongsTo(PartReceipt, { foreignKey: 'receipt_id' });
 
+ProjectPartUsage.belongsTo(Project, { foreignKey: 'project_id' });
+
 module.exports = {
   sequelize,
   Project,
@@ -28,5 +32,7 @@ module.exports = {
   ManufacturerPart,
   Part,
   Manufacturer,
-  Location
+  Location,
+  ProjectPartUsage,
+  StockAdjustment,
 };
