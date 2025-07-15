@@ -5,9 +5,9 @@ const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/project.controller');
 const { verifyToken } = require('../middleware/auth.middleware');
+const { authorizeRoles } = require('../middleware/role.middleware');
 
-
-router.get('/', verifyToken, projectController.getAllProjects);
+router.get('/', verifyToken, authorizeRoles('Admin'), projectController.getAllProjects);
 router.get('/:id', verifyToken, projectController.getProjectById);
 router.post('/', verifyToken, projectController.createProject);
 router.put('/:id', verifyToken, projectController.updateProject);
