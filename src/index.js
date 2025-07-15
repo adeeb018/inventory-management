@@ -9,6 +9,7 @@ const projectPartUsageRoutes = require('./routes/projectPartUsage.routes');
 const stockAdjustmentRoutes = require('./routes/stockAdjustment.routes');
 const stockRoutes = require('./routes/stock.routes');
 const alternatePartRoutes = require('./routes/alternatePart.routes');
+const authRoutes = require('./routes/auth.routes');
 
 const app = express();
 const PORT = 3000;
@@ -29,6 +30,7 @@ app.use('/usages', projectPartUsageRoutes);
 app.use('/stock-adjustments', stockAdjustmentRoutes);
 app.use('/stock', stockRoutes);
 app.use('/alternate-parts', alternatePartRoutes);
+app.use('/auth', authRoutes);
 
 sequelize.authenticate()
   .then(() => {

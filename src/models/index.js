@@ -12,6 +12,7 @@ const Project = require('./project.model')(sequelize, DataTypes);
 const ProjectPartUsage = require('./projectPartUsage.model')(sequelize, DataTypes)
 const StockAdjustment = require('./stockAdjustment.model')(sequelize, DataTypes);
 const AlternatePart = require('./alternatePart.model')(sequelize, DataTypes);
+const User = require('./user.model')(sequelize, DataTypes);
 
 
 // Define associations
@@ -53,4 +54,5 @@ module.exports = {
   ProjectPartUsage,
   StockAdjustment,
   AlternatePart,
+  User,
 };
