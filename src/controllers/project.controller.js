@@ -92,3 +92,43 @@ exports.deleteProject = async (req, res) => {
     res.status(500).json({ error: 'Failed to delete project' });
   }
 };
+
+
+// ===============================
+// Get part summary for a project
+// ===============================
+const { sequelize } = require('../models');
+
+exports.getPartSummaryForProject = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const summary = await sequelize.query(
+      `
+      SELECT 
+        mp.manufacturer_part_number,
+        p.part_number,
+        p.description,
+        COALESCE(SUM(u.quantity_used), 0) AS total_used,
+        COALESCE(SUM(CASE WHEN sa.to_project_id = :id THEN sa.quantity_adjusted ELSE 0 END), 0) AS moved_in,
+        COALESCE(SUM(CASE WHEN sa.from_project_id = :id THEN sa.quantity_adjusted ELSE 0 END), 0) AS moved_out
+      FROM manufacturer_parts mp
+      JOIN parts p ON p.part_id = mp.part_id
+      LEFT JOIN project_part_usage u 
+        ON u.manufacturer_part_id = mp.manufacturer_part_id AND u.project_id = :id
+      LEFT JOIN stock_adjustments sa 
+        ON sa.manufacturer_part_id = mp.manufacturer_part_id 
+        AND (sa.to_project_id = :id OR sa.from_project_id = :id)
+      GROUP BY mp.manufacturer_part_number, p.part_number, p.description
+      ORDER BY p.part_number;
+      `,
+      {
+        replacements: { id },
+        type: sequelize.QueryTypes.SELECT
+      }
+    );
+    res.json(summary);
+  } catch (err) {
+    console.error('Error generating project part summary:', err);
+    res.status(500).json({ error: 'Failed to generate summary' });
+  }
+};
