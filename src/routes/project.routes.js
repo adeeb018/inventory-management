@@ -10,5 +10,7 @@ router.get('/:id', projectController.getProjectById);
 router.post('/', projectController.createProject);
 router.put('/:id', projectController.updateProject);
 router.delete('/:id', projectController.deleteProject);
+router.get('/:id/part-report', projectController.getPartReportForProject);
+
 
 module.exports = router;

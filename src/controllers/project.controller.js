@@ -1,7 +1,43 @@
 // ===============================
 // 1. src/controllers/project.controller.js
 // ===============================
+
+const { ProjectPartUsage, ManufacturerPart, Part, Manufacturer } = require('../models');
 const { Project } = require('../models');
+// Add this new function at the bottom of the file
+
+exports.getPartReportForProject = async (req, res) => {
+  const projectId = req.params.id;
+
+  try {
+    const usage = await ProjectPartUsage.findAll({
+      where: { project_id: projectId },
+      include: [
+        {
+          model: ManufacturerPart,
+          include: [
+            { model: Part },
+            { model: Manufacturer }
+          ]
+        }
+      ]
+    });
+
+    const report = usage.map(u => ({
+      manufacturer_part_number: u.ManufacturerPart.manufacturer_part_number,
+      part_number: u.ManufacturerPart.Part.part_number,
+      part_description: u.ManufacturerPart.Part.description,
+      part_type: u.ManufacturerPart.Part.part_type,
+      manufacturer: u.ManufacturerPart.Manufacturer.name,
+      quantity_used: u.quantity_used
+    }));
+
+    res.json(report);
+  } catch (err) {
+    console.error('Error fetching part report:', err);
+    res.status(500).json({ error: 'Failed to fetch part report' });
+  }
+};
 
 exports.getAllProjects = async (req, res) => {
   try {

@@ -1,29 +1,26 @@
-// src/models/stockAdjustment.model.js
+// src/models/alternatePart.model.js
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('StockAdjustment', {
-      adjustment_id: {
+    return sequelize.define('AlternatePart', {
+      alternate_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      manufacturer_part_id: {
+      base_manufacturer_part_id: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      quantity_adjusted: {
+      alternate_manufacturer_part_id: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      reason: DataTypes.STRING,
-      from_project_id: DataTypes.INTEGER,
-      to_project_id: DataTypes.INTEGER,
-      created_by: DataTypes.INTEGER,
+      notes: DataTypes.TEXT,
       created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
       }
     }, {
-      tableName: 'stock_adjustments',
+      tableName: 'alternate_parts',
       timestamps: false
     });
   };

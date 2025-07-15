@@ -11,6 +11,8 @@ const Location = require('./location.model')(sequelize, DataTypes);
 const Project = require('./project.model')(sequelize, DataTypes);
 const ProjectPartUsage = require('./projectPartUsage.model')(sequelize, DataTypes)
 const StockAdjustment = require('./stockAdjustment.model')(sequelize, DataTypes);
+const AlternatePart = require('./alternatePart.model')(sequelize, DataTypes);
+
 
 // Define associations
 PartReceipt.belongsTo(ManufacturerPart, { foreignKey: 'manufacturer_part_id' });
@@ -24,6 +26,21 @@ ReceiptLocation.belongsTo(PartReceipt, { foreignKey: 'receipt_id' });
 
 ProjectPartUsage.belongsTo(Project, { foreignKey: 'project_id' });
 
+ProjectPartUsage.belongsTo(ManufacturerPart, { foreignKey: 'manufacturer_part_id' });
+ManufacturerPart.hasMany(ProjectPartUsage, { foreignKey: 'manufacturer_part_id' });
+
+ProjectPartUsage.belongsTo(Part, { foreignKey: 'part_id' });
+Part.hasMany(ProjectPartUsage, { foreignKey: 'part_id' });
+
+ManufacturerPart.hasMany(StockAdjustment, { foreignKey: 'manufacturer_part_id' });
+StockAdjustment.belongsTo(ManufacturerPart, { foreignKey: 'manufacturer_part_id' });
+
+AlternatePart.belongsTo(ManufacturerPart, {
+  foreignKey: 'alternate_manufacturer_part_id',
+  as: 'alternatePart'
+});
+
+
 module.exports = {
   sequelize,
   Project,
@@ -35,4 +52,5 @@ module.exports = {
   Location,
   ProjectPartUsage,
   StockAdjustment,
+  AlternatePart,
 };
