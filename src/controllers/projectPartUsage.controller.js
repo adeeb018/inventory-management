@@ -14,3 +14,23 @@ exports.addUsage = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+exports.createUsage = async (req, res) => {
+  const { part_id, manufacturer_part_id, quantity_used, project_id } = req.body;
+  const created_by = req.user.user_id;
+
+  try {
+    const usage = await ProjectPartUsage.create({
+      part_id,
+      manufacturer_part_id,
+      quantity_used,
+      project_id,
+      created_by
+    });
+
+    res.status(201).json(usage);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to record part usage' });
+  }
+};
+

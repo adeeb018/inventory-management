@@ -21,8 +21,10 @@ exports.getAdjustmentById = async (req, res) => {
 };
 
 exports.createAdjustment = async (req, res) => {
+  const { manufacturer_part_id, quantity_adjusted, reason, from_project_id, to_project_id } = req.body;
+  const created_by = req.user.user_id;
+
   try {
-    const { manufacturer_part_id, quantity_adjusted, reason, from_project_id, to_project_id, created_by } = req.body;
     const adjustment = await StockAdjustment.create({
       manufacturer_part_id,
       quantity_adjusted,
@@ -31,12 +33,14 @@ exports.createAdjustment = async (req, res) => {
       to_project_id,
       created_by
     });
+
     res.status(201).json(adjustment);
-  } catch (err) {
-    console.error('Error creating stock adjustment:', err);
+  } catch (error) {
+    console.error('Error creating stock adjustment:', error);
     res.status(500).json({ error: 'Failed to create adjustment' });
   }
 };
+
 
 exports.updateAdjustment = async (req, res) => {
   try {

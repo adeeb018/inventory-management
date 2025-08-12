@@ -1,0 +1,41 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Admin123",
+    "database": "inventory-db",
+    "host": "inventory-db.c3koyyg2g0hq.ap-south-1.rds.amazonaws.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Admin123",
+    "database": "inventory-db-test",
+    "host": "inventory-db.c3koyyg2g0hq.ap-south-1.rds.amazonaws.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Admin123",
+    "database": "inventory-db",
+    "host": "inventory-db.c3koyyg2g0hq.ap-south-1.rds.amazonaws.com",
+    "dialect": "postgres",
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}

@@ -26,7 +26,9 @@ exports.getReceiptById = async (req, res) => {
 };
 
 exports.createReceipt = async (req, res) => {
-  const { manufacturer_part_id, quantity_received, received_for_project_id, created_by } = req.body;
+  const { manufacturer_part_id, quantity_received, received_for_project_id } = req.body;
+  const created_by = req.user.user_id; // ✅ get from auth token
+
   try {
     const [result] = await sequelize.query(`
       INSERT INTO part_receipts (manufacturer_part_id, quantity_received, received_for_project_id, created_by)

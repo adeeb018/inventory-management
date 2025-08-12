@@ -1,4 +1,4 @@
-exports.authorizeRoles = (...allowedRoles) => {
+exports.requireRole = (...allowedRoles) => {
     return (req, res, next) => {
       const userRole = req.user?.role;
   

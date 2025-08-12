@@ -1,14 +1,20 @@
 const { Sequelize } = require('sequelize');
-require('dotenv').config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  'inventory-db', // Database name
+  'postgres',     // Master username
+  'Admin123', // Master password
   {
-    host: process.env.DB_HOST,
+    host: 'inventory-db.c3koyyg2g0hq.ap-south-1.rds.amazonaws.com', // RDS endpoint
     dialect: 'postgres',
-    port: process.env.DB_PORT
+    port: 5432,
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   }
 );
 
