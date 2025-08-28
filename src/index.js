@@ -39,3 +39,12 @@ sequelize.authenticate()
     app.listen(PORT, '0.0.0.0', () => console.log(`Server running on http://13.127.33.167:${PORT}`));
   })
   .catch(err => console.error('Database connection failed:', err));
+
+ // for browser connection CORS is needed
+const cors = require('cors');
+
+app.use(cors({
+  origin: '*', // or restrict to your web host: 'http://localhost:8080'
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
